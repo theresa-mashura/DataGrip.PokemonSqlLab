@@ -81,3 +81,5 @@ SELECT
     GROUP BY pokemon_id
     HAVING Count_One_Trainer = 1
 ) x; 
+
+-- PART 4
