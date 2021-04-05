@@ -1,0 +1,55 @@
+-- PART 2
+
+-- What are all the types of pokemon that a pokemon can have?
+SELECT * 
+FROM types; 
+
+-- What is the name of the pokemon with id 45?
+SELECT * 
+FROM Pokemons
+WHERE id = 45; 
+
+-- How many pokemon are there? 656
+SELECT COUNT(1) AS Count
+FROM Pokemons; 
+
+-- How many types are there? 18
+SELECT COUNT(1) AS Count
+FROM types;
+
+-- How many pokemon have a secondary type? 316
+SELECT COUNT(1) AS Count
+FROM Pokemons
+WHERE secondary_type IS NOT NULL; 
+
+-- PART 3
+
+-- What is each pokemon's primary type?
+SELECT 
+  p.name AS Pokemon_Name, 
+  t.name AS Primary_Type_Name
+FROM Pokemons p
+LEFT JOIN types t
+ON p.primary_type = t.id; 
+  
+-- What is Rufflet's secondary type? Normal
+SELECT
+  p.name AS Pokemon_Name, 
+  t.name AS Primary_Type_Name
+FROM Pokemons p
+LEFT JOIN types t
+ON p.primary_type = t.id
+WHERE p.name = "Rufflet"; 
+
+-- What are the names of the pokemon that belong to the trainer with trainerID 303? Wailord, Vileplum
+SELECT
+  name AS Pokemon_Name
+FROM Pokemons p
+WHERE EXISTS (SELECT 1 FROM pokemon_trainer pt WHERE pt.trainerID = 303 AND pt.pokemon_id = p.id);
+
+-- How many pokemon have a secondary type Poison
+
+
+-- What are all the primary types and how many pokemon have that type?
+-- How many pokemon at level 100 does each trainer with at least one level 100 pokemone have? (Hint: your query should not display a trainer
+-- How many pokemon only belong to one trainer and no other?
