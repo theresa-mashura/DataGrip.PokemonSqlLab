@@ -83,3 +83,28 @@ SELECT
 ) x; 
 
 -- PART 4
+-- each trainer an have >1 pokemon, some may share same pokemon
+SELECT 
+  p.id, 
+  pt.trainerID, 
+  p.name AS Pokemon_Name, 
+  t.trainername AS Trainer_Name, 
+  pt.pokelevel AS Level, 
+  pt.attack AS Attack, 
+  SUM(pt.pokeLevel) OVER (PARTITION BY pt.trainerID) AS Sum_Level,
+  SUM(pt.attack) OVER (PARTITION BY pt.trainerID) AS Sum_Attack,
+  t1.name AS Primary_Type, 
+  t2.name AS Secondary_Type
+FROM Pokemons p
+LEFT JOIN types t1
+ON p.primary_type = t1.id
+LEFT JOIN types t2
+ON p.secondary_type = t2.id
+LEFT JOIN pokemon_trainer pt
+ON p.id = pt.pokemon_id
+LEFT JOIN trainers t           
+ON pt.trainerId = t.trainerID
+ORDER BY Sum_Level DESC, Sum_Attack DESC, pt.trainerID  -- Best trainer has pokemen whose levels sum to highest number, tiebreaker is sum of pokemon's attack
+;
+
+
